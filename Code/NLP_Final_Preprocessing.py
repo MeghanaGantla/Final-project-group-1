@@ -65,6 +65,11 @@ def lemmatize(text):
     lem = WordNetLemmatizer()
     return ' '.join(lem.lemmatize(word) for word in text.split())
 
+def remove_numbers(text):
+    """
+    Remove numbers from text using regular expressions.
+    """
+    return re.sub(r'\d+', '', text)
 
 def preprocess_text(text):
     # Apply all preprocess together
@@ -74,11 +79,13 @@ def preprocess_text(text):
     text4 = remove_punctuation(text3)
     text5 = remove_characters(text4)
     text6 = remove_stopwords(text5)
-    text7 = stemming_words(text6)
-    text8 = lemmatize(text7)
-    return text8
+    #text7 = stemming_words(text6)
+    text8 = lemmatize(text6)
+    text9 = remove_numbers(text8)
+    return text9
 
 
 data_path = os.path.join(path, 'preprocessed_data.csv')
 df['full_text'] = df['full_text'].apply(preprocess_text)
+df['full_text'] = df['full_text'].astype(str)
 df.to_csv(data_path, index=False)
