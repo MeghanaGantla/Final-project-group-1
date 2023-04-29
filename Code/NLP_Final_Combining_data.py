@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-path = os.path.join(os.path.dirname(__file__), 'Data')
+current_dir = os.getcwd()
+path = os.path.join(current_dir, 'Data')
 fake_path = os.path.join(path, 'Fake.csv')
 true_path = os.path.join(path, 'True.csv')
 data_path = os.path.join(path, 'Full_data.csv')

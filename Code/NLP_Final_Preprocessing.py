@@ -79,4 +79,6 @@ def preprocess_text(text):
     return text8
 
 
+data_path = os.path.join(path, 'preprocessed_data.csv')
 df['full_text'] = df['full_text'].apply(preprocess_text)
+df.to_csv(data_path, index=False)
