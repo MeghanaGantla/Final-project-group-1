@@ -25,7 +25,7 @@ def urls(text):
     return re.sub(r'http\S+', '', text)
 
 
-df['clean_text'] = df['clean_text'].apply(urls)
+df['clean_text'] = df['full_text'].apply(urls)
 
 
 def to_lower(text):
