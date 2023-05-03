@@ -1,15 +1,15 @@
 import pandas as pd
-#import numpy as np
 import os
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from collections import Counter
 
-
 current_dir = os.getcwd()
 path = os.path.join(current_dir, 'Data')
 data_path = os.path.join(path, 'preprocessed_data.csv')
 df = pd.read_csv(data_path)
+
+df['full_text'] = df['full_text'].astype(str)
 
 # Create a bar chart to visualize the distribution of fake and real news articles
 counts = df['target'].value_counts()
@@ -57,10 +57,9 @@ ax.legend()
 plt.xticks(rotation=90)
 plt.show()
 
-
 # Create a box plot to visualize the distribution of article lengths by target
-plt.boxplot([df[df['target']==0]['full_text'].str.split().apply(len),
-             df[df['target']==1]['full_text'].str.split().apply(len)],
+plt.boxplot([df[df['target'] == 0]['full_text'].str.split().apply(len),
+             df[df['target'] == 1]['full_text'].str.split().apply(len)],
             labels=['Fake', 'Real'])
 plt.title('Distribution of Article Lengths by Target')
 plt.xlabel('Target')
@@ -68,11 +67,11 @@ plt.ylabel('Number of Words')
 plt.show()
 
 # Create a scatter plot to visualize the relationship between article length and target
-plt.scatter(df[df['target']==0]['full_text'].str.split().apply(len),
-            df[df['target']==0]['target'],
+plt.scatter(df[df['target'] == 0]['full_text'].str.split().apply(len),
+            df[df['target'] == 0]['target'],
             color='red', label='Fake')
-plt.scatter(df[df['target']==1]['full_text'].str.split().apply(len),
-            df[df['target']==1]['target'],
+plt.scatter(df[df['target'] == 1]['full_text'].str.split().apply(len),
+            df[df['target'] == 1]['target'],
             color='blue', label='Real')
 plt.title('Relationship between Article Length and Target by Full Text')
 plt.xlabel('Number of Words')
