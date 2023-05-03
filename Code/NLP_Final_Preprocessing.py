@@ -5,9 +5,8 @@ import pandas as pd
 import contractions
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import word_tokenize
 import os
-
 
 current_dir = os.getcwd()
 path = os.path.join(current_dir, 'Data')
@@ -17,7 +16,7 @@ df = pd.read_csv(data_path)
 print(df.head())
 
 df['full_text'] = df['title'] + ' ' + df['text']
-df.drop(['title', 'text'], axis=1, inplace=True)
+df.drop(['title', 'text', 'date'], axis=1, inplace=True)
 
 
 # Define preprocessing functions
@@ -26,9 +25,15 @@ def urls(text):
     return re.sub(r'http\S+', '', text)
 
 
+df['clean_text'] = df['clean_text'].apply(urls)
+
+
 def to_lower(text):
     # Apply lower casing
     return text.lower()
+
+
+df['clean_text'] = df['clean_text'].apply(to_lower)
 
 
 def remove_contractions(text):
@@ -36,9 +41,15 @@ def remove_contractions(text):
     return ' '.join([contractions.fix(word) for word in text.split()])
 
 
+df['clean_text'] = df['clean_text'].apply(remove_contractions)
+
+
 def remove_punctuation(text):
     # Remove punctuations
     return text.translate(str.maketrans('', '', string.punctuation))
+
+
+df['clean_text'] = df['clean_text'].apply(remove_punctuation)
 
 
 def remove_characters(text):
@@ -46,12 +57,16 @@ def remove_characters(text):
     return re.sub('[^a-zA-Z]', ' ', text)
 
 
+df['clean_text'] = df['clean_text'].apply(remove_characters)
+
+
 def remove_stopwords(text):
     # Remove stopwords
-    stop_words = set(stopwords.words('english'))
-    tokens = nltk.word_tokenize(text)
-    filtered_tokens = [token for token in tokens if token not in stop_words]
-    return ' '.join(filtered_tokens)
+    stop_words = stopwords.words('english')
+    return ' '.join([word for word in nltk.word_tokenize(text) if word not in stop_words])
+
+
+df['clean_text'] = df['clean_text'].apply(remove_stopwords)
 
 
 def lemmatize(text):
@@ -60,18 +75,8 @@ def lemmatize(text):
     return ' '.join(lem.lemmatize(word) for word in text.split())
 
 
-def preprocess_text(text):
-    # Apply all preprocess together
-    text1 = urls(text)
-    text2 = to_lower(text1)
-    text3 = remove_contractions(text2)
-    text4 = remove_punctuation(text3)
-    text5 = remove_characters(text4)
-    text6 = remove_stopwords(text5)
-    text7 = lemmatize(text6)
-    return text7
+df['clean_text'] = df['clean_text'].apply(lemmatize)
 
 
 data_path = os.path.join(path, 'preprocessed_data.csv')
-df['clean_text'] = df['full_text'].apply(preprocess_text)
 df.to_csv(data_path, index=False)
