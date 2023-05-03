@@ -54,12 +54,6 @@ def remove_stopwords(text):
     return ' '.join(filtered_tokens)
 
 
-def stemming_words(text):
-    # Apply stemming
-    stemmer = PorterStemmer()
-    return ' '.join(stemmer.stem(word) for word in text.split())
-
-
 def lemmatize(text):
     # Apply lemmatizing
     lem = WordNetLemmatizer()
@@ -75,10 +69,9 @@ def preprocess_text(text):
     text5 = remove_characters(text4)
     text6 = remove_stopwords(text5)
     text7 = lemmatize(text6)
-    text8 = remove_numbers(text7)
-    return text8
+    return text7
 
 
 data_path = os.path.join(path, 'preprocessed_data.csv')
-df['full_text'] = df['full_text'].apply(preprocess_text)
+df['clean_text'] = df['full_text'].apply(preprocess_text)
 df.to_csv(data_path, index=False)

@@ -9,7 +9,7 @@ path = os.path.join(current_dir, 'Data')
 data_path = os.path.join(path, 'preprocessed_data.csv')
 df = pd.read_csv(data_path)
 
-df['full_text'] = df['full_text'].astype(str)
+df['clean_text'] = df['clean_text'].astype(str)
 
 # Create a bar chart to visualize the distribution of fake and real news articles
 counts = df['target'].value_counts()
