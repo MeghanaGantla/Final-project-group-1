@@ -20,14 +20,6 @@ plt.xlabel('Category')
 plt.ylabel('Number of Articles')
 plt.show()
 
-# Create a word cloud to visualize the most common words in the news articles
-word_freq = Counter(" ".join(df['full_text']).split()).most_common(100)
-wordcloud = WordCloud(width=800, height=800, background_color='white').generate_from_frequencies(dict(word_freq))
-plt.figure(figsize=(8, 8))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis('off')
-plt.show()
-
 # Create a histogram to visualize the distribution of article lengths
 article_lengths = df['full_text'].str.len()
 plt.hist(article_lengths, bins=20, alpha=0.5)
