@@ -11,7 +11,7 @@ This folder contains final term project files for DATS_6312 NLP for Data Science
 
 ## Code Execution
 1. Download the dataset from https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
-2. Save the dataset inside the Code folder within the Data folder
+2. Save the dataset inside the 'Code' folder within the 'Data' folder
 3. First run the NLP_Final_Combining_data.py to combine the data. This will take Fake.csv and True.csv files from the Data folder and return a Full_data.csv.
 4. Next, run the NLP_Final_Preprocessing.py to obtain preprocessed data CSV file as preprocessed_data.csv
 5. Run the code NLP_Final_EDA.py for Exploratory Data analysis
